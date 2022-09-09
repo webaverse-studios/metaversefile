@@ -41,6 +41,39 @@ const contracts = {
   moreloot,
   loomlock,
 };
+
+/* const weba = require('../protocols/weba.js');
+const protocols = {
+  weba,
+}; */
+
+const jsx = require('../types/jsx.js');
+const metaversefile = require('../types/metaversefile.js');
+const glb = require('../types/glb.js');
+const vrm = require('../types/vrm.js');
+const vox = require('../types/vox.js');
+const image = require('../types/image.js');
+const gif = require('../types/gif.js');
+const glbb = require('../types/glbb.js');
+const gltj = require('../types/gltj.js');
+const html = require('../types/html.js');
+const scn = require('../types/scn.js');
+const light = require('../types/light.js');
+const text = require('../types/text.js');
+//const fog = require('../types/fog.js');
+// const background = require('../types/background.js');
+const rendersettings = require('../types/rendersettings.js');
+const spawnpoint = require('../types/spawnpoint.js');
+const wind = require('../types/wind.js');
+const lore = require('../types/lore.js');
+const quest = require('../types/quest.js');
+const npc = require('../types/npc.js');
+const mob = require('../types/mob.js');
+const react = require('../types/react.js');
+const group = require('../types/group.js');
+const directory = require('../types/directory.js');
+const sprite = require('../types/sprite.js');
+const scene2D = require('../types/scene2D.js');
 const loaders = {
   js: jsx,
   jsx,
@@ -70,7 +103,8 @@ const loaders = {
   react,
   group,
   wind,
-  vircadia,
+  sprite,
+  scene2D,
   '': directory,
 };
 
@@ -88,7 +122,7 @@ const _getType = id => {
     }
     let extension;
     let match2;
-    if (match2 = type.match(/^application\/(light|text|rendersettings|spawnpoint|lore|quest|npc|mob|react|group|wind|vircadia)$/)) {
+    if (match2 = type.match(/^application\/(light|text|rendersettings|spawnpoint|lore|quest|npc|mob|react|group|wind|sprite|scene2D)$/)) {
       extension = match2[1];
     } else if (match2 = type.match(/^application\/(javascript)$/)) {
       extension = 'js';
