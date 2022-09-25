@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import metaversefile from 'metaversefile';
+import metaversefile from '../index.js';
 const {useApp, useFrame, useLoaders, usePhysics, useCleanup} = metaversefile;
 
 const size = 1024;

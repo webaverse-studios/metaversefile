@@ -1,5 +1,5 @@
 // import * as THREE from 'three';
-import metaversefile from 'metaversefile';
+import metaversefile from '../index.js';
 const {useApp, useNpcManager, useCleanup} = metaversefile;
 
 export default e => {

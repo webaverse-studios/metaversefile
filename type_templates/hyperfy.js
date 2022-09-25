@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import metaversefile from 'metaversefile';
+import metaversefile from '../index.js';
 const { useApp, addTrackedApp, useCleanup } = metaversefile;
 
 function typeContentToUrl(type, content) {

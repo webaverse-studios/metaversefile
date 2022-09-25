@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import metaversefile from 'metaversefile';
+import metaversefile from '../index.js';
 const {useApp, useFrame, useDomRenderer, useInternals, useWear, useCleanup} = metaversefile;
 
 let baseUrl = import.meta.url.replace(/(\\/)[^\\/\\\\]*$/, '$1');
