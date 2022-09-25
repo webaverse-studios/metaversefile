@@ -1,6 +1,6 @@
 const path = require('path');
 const fs = require('fs');
-const {fillTemplate, createRelativeFromAbsolutePath, parseIdHash} = require('metaversefile/util.js');
+const {fillTemplate, createRelativeFromAbsolutePath, parseIdHash} = require('../util.js');
 
 const templateString = fs.readFileSync(path.join(__dirname, '..', 'type_templates', 'gamesettings.js'), 'utf8');
 

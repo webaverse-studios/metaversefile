@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-import metaversefile from 'metaversefile';
+import metaversefile from '../index.js';
 const {useApp, useFrame, useCleanup, useLoaders, usePhysics} = metaversefile;
 
 const flipGeomeryUvs = geometry => {

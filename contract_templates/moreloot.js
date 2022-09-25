@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import metaversefile from 'metaversefile';
+import metaversefile from '../index.js';
 const {useApp, addTrackedApp, removeTrackedApp, useLocalPlayer, useActivate, useLoaders, useCleanup, usePhysics, useWeb3, useAbis} = metaversefile;
 
 const _capitalize = s => s.slice(0, 1).toUpperCase() + s.slice(1);

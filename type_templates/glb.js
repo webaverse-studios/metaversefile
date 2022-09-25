@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-import metaversefile from 'metaversefile';
+import metaversefile from '../index.js';
 const {useApp, useFrame, useCleanup, useLocalPlayer, usePhysics, useLoaders, useActivate, useAvatarInternal, useInternals,useCameraManager, useScene} = metaversefile;
 
 // const wearableScale = 1;
