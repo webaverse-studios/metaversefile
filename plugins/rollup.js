@@ -36,6 +36,7 @@ const light = require('../types/light.js');
 const text = require('../types/text.js');
 //const fog = require('../types/fog.js');
 // const background = require('../types/background.js');
+const gamesettings = require('../types/gamesettings.js');
 const rendersettings = require('../types/rendersettings.js');
 const spawnpoint = require('../types/spawnpoint.js');
 const wind = require('../types/wind.js');
@@ -71,6 +72,7 @@ const loaders = {
   // fog,
   // background,
   rendersettings,
+  gamesettings,
   spawnpoint,
   lore,
   quest,
@@ -100,7 +102,7 @@ const _getType = id => {
     }
     let extension;
     let match2;
-    if (match2 = type.match(/^application\/(light|text|rendersettings|spawnpoint|lore|quest|npc|mob|react|group|wind|sprite|scene2D|vircadia|hyperfy)$/)) {
+    if (match2 = type.match(/^application\/(light|text|gamesettings|rendersettings|spawnpoint|lore|quest|npc|mob|react|group|wind|sprite|scene2D|vircadia|hyperfy)$/)) {
       extension = match2[1];
     } else if (match2 = type.match(/^application\/(javascript)$/)) {
       extension = 'js';
