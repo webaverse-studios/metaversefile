@@ -27,7 +27,7 @@ export default e => {
   const physicsIds = [];
   {
     const texture = new THREE.Texture();
-    const geometry = new THREE.PlaneBufferGeometry(1, 1, 100, 100);
+    const geometry = new THREE.PlaneGeometry(1, 1, 100, 100);
     const uniforms = {
       map: {
         type: 't',

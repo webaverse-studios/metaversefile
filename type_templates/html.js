@@ -15,7 +15,7 @@ class IFrameMesh extends THREE.Mesh {
     width,
     height,
   }) {
-    const geometry = new THREE.PlaneBufferGeometry(width, height);
+    const geometry = new THREE.PlaneGeometry(width, height);
     const material = new THREE.MeshBasicMaterial({
       color: 0xFFFFFF,
       side: THREE.DoubleSide,

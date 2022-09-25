@@ -19,7 +19,7 @@ export default e => {
 
   app.gif = null;
   
-  const geometry = new THREE.PlaneBufferGeometry(2, 2);
+  const geometry = new THREE.PlaneGeometry(2, 2);
   /* geometry.boundingBox = new THREE.Box3(
     new THREE.Vector3(-worldWidth/2, -worldHeight/2, -0.1),
     new THREE.Vector3(worldWidth/2, worldHeight/2, 0.1),

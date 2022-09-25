@@ -167,7 +167,7 @@ export default e => {
     
     promises.push((async () => {
       const texture = new THREE.Texture();
-      const geometry = new THREE.PlaneBufferGeometry(1, 1);
+      const geometry = new THREE.PlaneGeometry(1, 1);
       const material = new THREE.MeshBasicMaterial({
         map: texture,
         side: THREE.DoubleSide,
