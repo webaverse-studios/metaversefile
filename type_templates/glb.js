@@ -217,27 +217,27 @@ export default e => {
               switch (cameraManager.scene2D.perspective) {
                 case 'side-scroll': {
                   if(worldPos.z === 0) {
-                    physicsId = physics.addGeometry2D(o, scene, 0);
+                    _addPhysicsId(physics.addGeometry2D(o, scene, 0));
                     console.log("2D-Geom", "perspective:", cameraManager.scene2D.perspective);
                   }
                   else {
-                    physicsId = physics.addGeometry(o);
+                    _addPhysicsId(physics.addGeometry(o));
                     console.log("3D-Geom", "perspective:", cameraManager.scene2D.perspective);
                   }
                 }
                 case 'isometric': {
-                  physicsId = physics.addGeometry(o);
+                  _addPhysicsId(physics.addGeometry(o));
                   console.log("3D-Geom", "perspective:", cameraManager.scene2D.perspective);
                 }
                 default: {
                   console.log("invalid perspective:", cameraManager.scene2D.perspective);
-                  physicsId = physics.addGeometry(o);
+                  _addPhysicsId(physics.addGeometry(o));
                   break;
                 }
               }
             }
             else {
-              physicsId = physics.addGeometry(o);
+              _addPhysicsId(physics.addGeometry(o));
               console.log("3D-Geom");
             }
             _addPhysicsId(physics.addGeometry(o));
@@ -295,7 +295,7 @@ export default e => {
                   scale.setY(extents[1] * scale.y);
                   scale.setZ(extents[2] * scale.z);
                   
-                  physicsId = physics.addBoxGeometry(position, rotation, scale, false);
+                  _addPhysicsId(physics.addBoxGeometry(position, rotation, scale, false));
                   
                   break;
                 }
@@ -304,7 +304,7 @@ export default e => {
                   let { radius=1 } = colliderDef;
 
                   radius *= shortestScaleAxis;
-                  physicsId = physics.addCapsuleGeometry(position, rotation, radius, 0, null, false);
+                  _addPhysicsId(physics.addCapsuleGeometry(position, rotation, radius, 0, null, false));
                   
                   break;
                 }
@@ -318,7 +318,7 @@ export default e => {
                   const halfHeight = (height - (radius * 2)) / 2;
 
                   rotation.setFromAxisAngle(new THREE.Vector3(0, 0, 1), THREE.MathUtils.degToRad(90));
-                  physicsId = physics.addCapsuleGeometry(position, rotation, radius, halfHeight, null, false);
+                  _addPhysicsId(physics.addCapsuleGeometry(position, rotation, radius, halfHeight, null, false));
                   
                   break;
                 }
@@ -326,8 +326,7 @@ export default e => {
                 case 'hull': {
                   const mesh = await _getColliderMesh(colliderDef);
                   
-                  if (mesh) physicsId = physics.addConvexGeometry(mesh);
-                  else physicsId = null;
+                  if (mesh) _addPhysicsId(physics.addConvexGeometry(mesh));
                   
                   break;
                 }
@@ -335,19 +334,18 @@ export default e => {
                 case 'mesh': {
                   const mesh = await _getColliderMesh(colliderDef);
 
-                  if (mesh) physicsId = physics.addGeometry(mesh);
-                  else physicsId = null;
+                  if (mesh) _addPhysicsId(physics.addGeometry(mesh));
 
                   break;
                 }
                   
                 case 'compound': {
-                  physicsId = null;
+                  // physicsId = null;
                   break;
                 }
                   
                 default: {
-                  physicsId = null;
+                  // physicsId = null;
                 }
                   
               }
