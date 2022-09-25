@@ -219,19 +219,19 @@ export default e => {
                 case 'side-scroll': {
                   if(worldPos.z === 0) {
                     _addPhysicsId(physics.addGeometry2D(o, scene, 0));
-                    console.log("2D-Geom", "perspective:", cameraManager.scene2D.perspective);
+                    // console.log("2D-Geom", "perspective:", cameraManager.scene2D.perspective);
                   }
                   else {
                     _addPhysicsId(physics.addGeometry(o));
-                    console.log("3D-Geom", "perspective:", cameraManager.scene2D.perspective);
+                    // console.log("3D-Geom", "perspective:", cameraManager.scene2D.perspective);
                   }
                 }
                 case 'isometric': {
                   _addPhysicsId(physics.addGeometry(o));
-                  console.log("3D-Geom", "perspective:", cameraManager.scene2D.perspective);
+                  // console.log("3D-Geom", "perspective:", cameraManager.scene2D.perspective);
                 }
                 default: {
-                  console.log("invalid perspective:", cameraManager.scene2D.perspective);
+                  // console.log("invalid perspective:", cameraManager.scene2D.perspective);
                   _addPhysicsId(physics.addGeometry(o));
                   break;
                 }
@@ -239,7 +239,6 @@ export default e => {
             }
             else {
               _addPhysicsId(physics.addGeometry(o));
-              console.log("3D-Geom");
             }
             _addPhysicsId(physics.addGeometry(o));
             break;

@@ -446,7 +446,7 @@ function GenerateField(field, width, height, depth, transparent) {
     indices[i+1] = indices[i];
     indices[i] = a;
   }
-  const geometry = new THREE.BufferGeometry();
+  const geometry = new THREE.Geometry();
   geometry.setAttribute('position', new THREE.BufferAttribute(newVertices.subarray(0, vertexIndex), 3));
   geometry.setAttribute('uv', new THREE.BufferAttribute(newUV.subarray(0, uvIndex), 2));
   geometry.setAttribute('color', new THREE.BufferAttribute(newColor.subarray(0, colorIndex), 3));
@@ -474,7 +474,7 @@ export default () => {
     const parcel = parcels.find(parcel => parcel.id === tokenId);
     // console.log('got parcels', parcels, parcel);
 
-    const imageGeometry = new THREE.PlaneBufferGeometry(2, 2)
+    const imageGeometry = new THREE.PlaneGeometry(2, 2)
       .applyMatrix4(new THREE.Matrix4().makeScale(-1, 1, 1));
     for (let i = 0; i < imageGeometry.index.array.length; i += 3) {
       const a = imageGeometry.index.array[i+1];

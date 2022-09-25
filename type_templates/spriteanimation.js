@@ -62,7 +62,7 @@ export default e => {
       width /= height;
       height = 1;
     }
-    const geometry = new THREE.PlaneBufferGeometry(width, height);
+    const geometry = new THREE.PlaneGeometry(width, height);
     geometry.boundingBox = new THREE.Box3(
       new THREE.Vector3(-width/2, -height/2, -0.1),
       new THREE.Vector3(width/2, height/2, 0.1),

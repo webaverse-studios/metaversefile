@@ -4,7 +4,7 @@ const {useApp, useFrame, useLoaders, useScene, usePhysics, useInternals, useJSON
 
 const {renderer} = useInternals();
 const JSON6 = useJSON6Internal();
-const geometry = new THREE.PlaneBufferGeometry(2, 2);
+const geometry = new THREE.PlaneGeometry(2, 2);
 
 export default e => {
   const app = useApp();
