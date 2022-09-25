@@ -30,7 +30,7 @@ export default e => {
   }
   
   app.glb = null;
-  const animationMixers = [];
+  app.mixer = null;
   const uvScrolls = [];
   const physicsIds = [];
   app.physicsIds = physicsIds;
@@ -80,17 +80,21 @@ export default e => {
       const _loadHubsComponents = () => {
         const _loadAnimations = () => {
           const animationEnabled = !!(app.getComponent('animation') ?? true);
-          if (animationEnabled) {
-            const idleAnimation = animations.find(a => a.name === 'idle');
+
+          if (animationEnabled && animations.length > 0){
+            
+            app.mixer = new THREE.AnimationMixer(o);    // create the animation mixer with the root of the glb file
+
+            const userIdle = app.getComponent('idleAnimation');
+            const idleString = typeof userIdle === 'string' ? userIdle : 'idle';
+
+            const idleAnimation = animations.find(a => a.name === idleString);
             const clips = idleAnimation ? [idleAnimation] : animations;
             for (const clip of clips) {
-              const mixer = new THREE.AnimationMixer(o);
-              
-              const action = mixer.clipAction(clip);
+              const action = app.mixer.clipAction(clip);
               action.play();
-
-              animationMixers.push(mixer);
             }
+            
           }
         };
         if (!app.hasComponent('pet')) {
@@ -333,8 +337,8 @@ export default e => {
   useFrame(({timestamp, timeDiff}) => {
     const _updateAnimation = () => {
       const deltaSeconds = timeDiff / 1000;
-      for (const mixer of animationMixers) {
-        mixer.update(deltaSeconds);
+      if (app.mixer){
+        app.mixer.update(deltaSeconds);
         app.updateMatrixWorld();
       }
     };
@@ -360,11 +364,10 @@ export default e => {
   });
 
   app.stop = () => {
-    for (const mixer of animationMixers) {
-      console.log('got mixer', mixer);
-      mixer.stopAllAction();
+    if (app.mixer){
+      app.mixer.stopAllAction();
+      app.mixer = null;
     }
-    animationMixers.length = 0;
   };
   
   return app;
