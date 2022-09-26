@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import metaversefile from '../index.js';
+import metaversefile from 'metaversefile';
 const {useApp, useFrame, useLocalPlayer, useCleanup, /*usePhysics, */ useWorld, useLightsManager} = metaversefile;
 
 const localVector = new THREE.Vector3();

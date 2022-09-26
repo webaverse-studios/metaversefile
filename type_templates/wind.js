@@ -1,4 +1,4 @@
-import metaversefile from '../index.js';
+import metaversefile from 'metaversefile';
 const {useApp, useCleanup, useEnvironmentManager} = metaversefile;
 
 export default e => {

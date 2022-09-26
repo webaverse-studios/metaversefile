@@ -2,14 +2,8 @@
   "name": "@webaverse-studios/metaversefile",
   "version": "0.0.33",
   "description": "",
-  "main": "./dist/metaversefile.umd.js",
-  "module": "./dist/metaversefile.js",
-  "exports": {
-    ".": {
-      "import": "./dist/metaversefile.mjs",
-      "require": "./dist/metaversefile.umd.js"
-    }
-  },
+  "main": "./index.js",
+  "module": "./index.js",
   "scripts": {
     "dev": "vite",
     "build": "vite build", 
