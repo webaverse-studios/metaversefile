@@ -8,7 +8,8 @@ export default defineConfig({
       entry: resolve(__dirname, 'index.js'),
       name: 'metaversefile',
       // the proper extensions will be added
-      fileName: 'metaversefile'
+      fileName: (format) => `metaversefile.${format}.js`,
+      formats: ['es', 'umd'],
     },
     rollupOptions: {
       output: {

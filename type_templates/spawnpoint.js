@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import metaversefile from '../index.js';
+import metaversefile from 'metaversefile';
 const {useApp, useLocalPlayer} = metaversefile;
 
 const localEuler = new THREE.Euler(0, 0, 0, 'YXZ');

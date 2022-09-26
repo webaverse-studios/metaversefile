@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import pako from 'pako';
-import metaversefile from '../index.js';
+import metaversefile from 'metaversefile';
 const {useApp, useLoaders, useCleanup, usePhysics} = metaversefile;
 
 function convertDataURIToBinary(base64) {

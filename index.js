@@ -1,5 +1,3 @@
-export {transform, load, resolveId, loaders, contracts} from "./metaversefile-functions.js";
-export {metaversefilePlugin} from "./plugins/rollup.js";
 class Metaversefile extends EventTarget {
   constructor() {
     super();
