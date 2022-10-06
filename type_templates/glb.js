@@ -17,7 +17,7 @@ const localMatrix = new THREE.Matrix4(); */
 
 export default e => {
   const app = useApp();
-  
+
   const physics = usePhysics();
   const localPlayer = useLocalPlayer();
   const cameraManager = useCameraManager();
@@ -28,19 +28,19 @@ export default e => {
   for (const {key, value} of components) {
     app.setComponent(key, value);
   }
-  
+
   app.glb = null;
   app.mixer = null;
   const uvScrolls = [];
   const physicsIds = [];
   app.physicsIds = physicsIds;
-  
+
   // glb state
   let animations;
-  
+
   // sit state
   let sitSpec = null;
-  
+
   let activateCb = null;
   e.waitUntil((async () => {
     let o;
@@ -59,7 +59,7 @@ export default e => {
       animations = o.animations;
       // console.log('got animations', animations);
       o = o.scene;
-      
+
       const _addAntialiasing = aaLevel => {
         o.traverse(o => {
           if (o.isMesh) {
@@ -76,13 +76,13 @@ export default e => {
         });
       };
       _addAntialiasing(16);
-      
+
       const _loadHubsComponents = () => {
         const _loadAnimations = () => {
           const animationEnabled = !!(app.getComponent('animation') ?? true);
 
           if (animationEnabled && animations.length > 0){
-            
+
             app.mixer = new THREE.AnimationMixer(o);    // create the animation mixer with the root of the glb file
 
             const userIdle = app.getComponent('idleAnimation');
@@ -94,7 +94,7 @@ export default e => {
               const action = app.mixer.clipAction(clip);
               action.play();
             }
-            
+
           }
         };
         if (!app.hasComponent('pet')) {
@@ -126,7 +126,7 @@ export default e => {
           }
         };
         _loadLightmaps();
-        
+
         const _loadUvScroll = o => {
           const textureToData = new Map();
           const registeredTextures = [];
@@ -134,7 +134,7 @@ export default e => {
             if (o.isMesh && o?.userData?.gltfExtensions?.MOZ_hubs_components?.['uv-scroll']) {
               const uvScrollSpec = o.userData.gltfExtensions.MOZ_hubs_components['uv-scroll'];
               const {increment, speed} = uvScrollSpec;
-              
+
               const mesh = o; // this.el.getObject3D("mesh") || this.el.getObject3D("skinnedmesh");
               const {material} = mesh;
               if (material) {
@@ -195,7 +195,7 @@ export default e => {
         _loadUvScroll(o);
       };
       _loadHubsComponents();
-      
+
       app.add(o);
       o.updateMatrixWorld();
 
@@ -208,7 +208,7 @@ export default e => {
             console.warn('glb unknown physics component', physicsComponent);
           }
         };
-        
+
         switch (physicsComponent.type) {
           case 'triangleMesh': {
             let worldPos = new THREE.Vector3();
@@ -217,7 +217,7 @@ export default e => {
               switch (cameraManager.scene2D.perspective) {
                 case 'side-scroll': {
                   if(worldPos.z === 0) {
-                    _addPhysicsId(physics.addGeometry2D(o, scene, 0));
+                    _addPhysicsId(physics.addGeometry2D(o, 0));
                     // console.log("2D-Geom", "perspective:", cameraManager.scene2D.perspective);
                   }
                   else {
@@ -249,14 +249,14 @@ export default e => {
           case 'omiCollider': {
             const _addCollider = async node => {
               const info = parser.associations.get(node);
-              
+
               if (!info) return;
-              
+
               const nodeIndex = info.nodes;
               const nodeDef = parser.json.nodes[nodeIndex];
 
               if (!nodeDef || !nodeDef.extensions) return;
-              
+
               const colliderDef = nodeDef.extensions.OMI_collider;
 
               const position = new THREE.Vector3();
@@ -266,15 +266,15 @@ export default e => {
               node.matrixWorld.decompose(position, rotation, scale);
 
               const shortestScaleAxis = scale.toArray().sort()[0];
-              
+
               let physicsId;
 
               const _getColliderMesh = async colliderDef => {
                 const { mesh=null } = colliderDef;
-                
+
                 if (typeof mesh === 'number') {
                   const loadedMesh = await parser.loadMesh(mesh);
-                  
+
                   node.add(loadedMesh);
                   loadedMesh.visible = false;
                   loadedMesh.updateMatrixWorld();
@@ -284,52 +284,52 @@ export default e => {
                   return null;
                 }
               }
-              
+
               switch(colliderDef.type) {
-                  
+
                 case 'box': {
                   const { extents=[1, 1, 1] } = colliderDef;
-                  
+
                   scale.setX(extents[0] * scale.x);
                   scale.setY(extents[1] * scale.y);
                   scale.setZ(extents[2] * scale.z);
-                  
+
                   _addPhysicsId(physics.addBoxGeometry(position, rotation, scale, false));
-                  
+
                   break;
                 }
-                  
+
                 case 'sphere': {
                   let { radius=1 } = colliderDef;
 
                   radius *= shortestScaleAxis;
                   _addPhysicsId(physics.addCapsuleGeometry(position, rotation, radius, 0, null, false));
-                  
+
                   break;
                 }
-                  
+
                 case 'capsule': {
                   let { radius=1, height=1 } = colliderDef;
 
                   radius *= shortestScaleAxis;
                   height *= scale.y;
-                  
+
                   const halfHeight = (height - (radius * 2)) / 2;
 
                   rotation.setFromAxisAngle(new THREE.Vector3(0, 0, 1), THREE.MathUtils.degToRad(90));
                   _addPhysicsId(physics.addCapsuleGeometry(position, rotation, radius, halfHeight, null, false));
-                  
+
                   break;
                 }
-                  
+
                 case 'hull': {
                   const mesh = await _getColliderMesh(colliderDef);
-                  
+
                   if (mesh) _addPhysicsId(physics.addConvexGeometry(mesh));
-                  
+
                   break;
                 }
-                  
+
                 case 'mesh': {
                   const mesh = await _getColliderMesh(colliderDef);
 
@@ -337,16 +337,16 @@ export default e => {
 
                   break;
                 }
-                  
+
                 case 'compound': {
                   // physicsId = null;
                   break;
                 }
-                  
+
                 default: {
                   // physicsId = null;
                 }
-                  
+
               }
 
               if (physicsId) {
@@ -354,7 +354,7 @@ export default e => {
                 _addPhysicsId(physicsId);
               }
             };
-            
+
             const _addOmiColliders = async node => {
               await _addCollider(node);
 
@@ -363,20 +363,20 @@ export default e => {
               if (hasChildren)
                 for (const childNode of node.children) await _addOmiColliders(childNode);
             };
-            
+
             await _addOmiColliders(o);
 
-            break;            
+            break;
           }
           default: {
             break;
           }
         }
-        
+
       };
-      
+
       let physicsComponent = app.getComponent('physics');
-      
+
       if (physicsComponent) {
         if (physicsComponent === true) {
           const { extensionsUsed=[] } = parser.json;
@@ -390,7 +390,7 @@ export default e => {
         }
         _addPhysics(physicsComponent);
       }
-      
+
       o.traverse(o => {
         if (o.isMesh) {
           //console.log(o);
@@ -402,7 +402,7 @@ export default e => {
 				  //   envMapTexture.encoding = THREE.sRGBEncoding;
 
           //   o.material.envMap = envMapTexture;
-            
+
           //   o.material.roughness = 0;
           //   o.material.clearcoat = 1;
           //   o.material.reflectivity = 1;
@@ -417,7 +417,7 @@ export default e => {
           o.receiveShadow = true;
         }
       });
-      
+
       activateCb = () => {
         if (
           app.getComponent('sit')
@@ -427,7 +427,7 @@ export default e => {
       };
     }
   })());
-  
+
   const _unwear = () => {
     if (sitSpec) {
       const sitAction = localPlayer.getAction('sit');
@@ -466,7 +466,7 @@ export default e => {
       _unwear();
     }
   });
-  
+
   useFrame(({timestamp, timeDiff}) => {
     const _updateAnimation = () => {
       const deltaSeconds = timeDiff / 1000;
@@ -476,7 +476,7 @@ export default e => {
       }
     };
     _updateAnimation();
-    
+
     const _updateUvScroll = () => {
       for (const uvScroll of uvScrolls) {
         uvScroll.update(timestamp);
@@ -484,11 +484,11 @@ export default e => {
     };
     _updateUvScroll();
   });
-  
+
   useActivate(() => {
     activateCb && activateCb();
   });
-  
+
   useCleanup(() => {
     for (const physicsId of physicsIds) {
       physics.removeGeometry(physicsId);
@@ -502,7 +502,7 @@ export default e => {
       app.mixer = null;
     }
   };
-  
+
   return app;
 };
 export const contentId = ${this.contentId};
