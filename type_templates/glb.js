@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 
 import metaversefile from 'metaversefile';
-const {useApp, useFrame, useCleanup, useLocalPlayer, usePhysics, useLoaders, useActivate, useAvatarInternal, useInternals,useCameraManager, useScene} = metaversefile;
+const {useApp, useFrame, useCleanup, useLocalPlayer, usePhysics, useLoaders, useActivate, useAvatarInternal, useInternals,useCameraManager, useScene, useScene2DManager} = metaversefile;
 
 // const wearableScale = 1;
 
@@ -21,6 +21,7 @@ export default e => {
   const physics = usePhysics();
   const localPlayer = useLocalPlayer();
   const cameraManager = useCameraManager();
+  const scene2DManager = useScene2DManager();
 
   let scene = useScene();
 
@@ -213,8 +214,8 @@ export default e => {
           case 'triangleMesh': {
             let worldPos = new THREE.Vector3();
             o.getWorldPosition(worldPos);
-            if(cameraManager.scene2D) {
-              switch (cameraManager.scene2D.perspective) {
+            if(scene2DManager.enabled) {
+              switch (scene2DManager.perspective) {
                 case 'side-scroll': {
                   if(worldPos.z === 0) {
                     _addPhysicsId(physics.addGeometry2D(o, 0));

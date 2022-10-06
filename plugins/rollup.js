@@ -45,6 +45,7 @@ const mob = require('../types/mob.js');
 const react = require('../types/react.js');
 const group = require('../types/group.js');
 const vircadia = require('../types/vircadia.js');
+const scene2D = require('../types/scene2D.js');
 const directory = require('../types/directory.js');
 const loaders = {
   js: jsx,
@@ -76,6 +77,7 @@ const loaders = {
   group,
   wind,
   vircadia,
+  scene2D,
   '': directory,
 };
 const upath = require('unix-path');
@@ -83,7 +85,7 @@ const upath = require('unix-path');
 const dataUrlRegex = /^data:([^;,]+)(?:;(charset=utf-8|base64))?,([\s\S]*)$/;
 const _getType = id => {
   id = id.replace(/^\/@proxy\//, '');
-  
+
   const o = url.parse(id, true);
   // console.log('get type', o, o.href.match(dataUrlRegex));
   let match;
@@ -94,7 +96,7 @@ const _getType = id => {
     }
     let extension;
     let match2;
-    if (match2 = type.match(/^application\/(light|text|rendersettings|spawnpoint|lore|quest|npc|mob|react|group|wind|vircadia)$/)) {
+    if (match2 = type.match(/^application\/(light|text|rendersettings|spawnpoint|lore|quest|npc|mob|react|group|wind|vircadia|scene2D)$/)) {
       extension = match2[1];
     } else if (match2 = type.match(/^application\/(javascript)$/)) {
       extension = 'js';
@@ -116,16 +118,16 @@ const _getType = id => {
 
 const _resolvePathName = (pathName , source) => {
   /**
-   * This check is specifically added because of windows 
+   * This check is specifically added because of windows
    * as windows is converting constantly all forward slashes into
    * backward slash
    */
   if(process.platform === 'win32'){
     pathName = pathName.replaceAll('\\','/').replaceAll('//','/');
     pathName = path.resolve(upath.parse(pathName).dir, source);
-    /** 
+    /**
      * Whenever path.resolve returns the result in windows it add the drive letter as well
-     * Slice the drive letter (c:/, e:/, d:/ ) from the path and change backward slash 
+     * Slice the drive letter (c:/, e:/, d:/ ) from the path and change backward slash
      * back to forward slash.
      */
      pathName = pathName.slice(3).replaceAll('\\','/');
@@ -137,7 +139,7 @@ const _resolvePathName = (pathName , source) => {
 
 const _resolveLoaderId = loaderId => {
   /**
-   * This check is specifically added because of windows 
+   * This check is specifically added because of windows
    * as windows is converting constantly all forward slashes into
    * backward slash
    */
@@ -180,7 +182,7 @@ module.exports = function metaversefilePlugin() {
       }
       if (/^ipfs:\/\//.test(source)) {
         source = source.replace(/^ipfs:\/\/(?:ipfs\/)?/, 'https://cloudflare-ipfs.com/ipfs/');
-        
+
         const o = url.parse(source, true);
         if (!o.query.type) {
           const res = await fetch(source, {
@@ -216,7 +218,7 @@ module.exports = function metaversefilePlugin() {
         const source2 = await resolveId(source, importer);
         return source2;
       } */
-      
+
       const type = _getType(source);
       const loader = loaders[type];
       const resolveId = loader?.resolveId;
@@ -251,7 +253,7 @@ module.exports = function metaversefilePlugin() {
         // .replace(/^\/@proxy\//, '')
         .replace(/^(eth:\/(?!\/))/, '$1/')
         // .replace(/^(weba:\/(?!\/))/, '$1/');
-      
+
       let match;
       // console.log('contract load match', id.match(/^eth:\/\/(0x[0-9a-f]+)\/([0-9]+)$/));
       if (match = id.match(/^eth:\/\/(0x[0-9a-f]+)\/([0-9]+)$/)) {
@@ -262,7 +264,7 @@ module.exports = function metaversefilePlugin() {
         // console.log('load contract 1', load);
         if (load) {
           const src = await load(id);
-          
+
           // console.log('load contract 2', src);
           if (src !== null && src !== undefined) {
             return src;
@@ -276,9 +278,9 @@ module.exports = function metaversefilePlugin() {
           return src;
         }
       } */
-      
+
       // console.log('load 2');
-      
+
       const type = _getType(id);
       const loader = loaders[type];
       const load = loader?.load;
@@ -290,9 +292,9 @@ module.exports = function metaversefilePlugin() {
           return src;
         }
       }
-      
+
       // console.log('load 2', {id, type, loader: !!loader, load: !!load});
-      
+
       if (/^https?:\/\//.test(id)) {
         const res = await fetch(id)
         const text = await res.text();
