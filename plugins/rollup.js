@@ -33,6 +33,7 @@ import react from '../types/react.js';
 import group from '../types/group.js';
 import vircadia from '../types/vircadia.js';
 import directory from '../types/directory.js';
+import gamesettings from '../types/gamesettings.js';
 
 import upath from 'unix-path';
 
@@ -62,6 +63,7 @@ const loaders = {
   // fog,
   // background,
   rendersettings,
+  gamesettings,
   spawnpoint,
   lore,
   quest,
@@ -77,7 +79,7 @@ const loaders = {
 const dataUrlRegex = /^data:([^;,]+)(?:;(charset=utf-8|base64))?,([\s\S]*)$/;
 const _getType = id => {
   id = id.replace(/^\/@proxy\//, '');
-  
+
   const o = url.parse(id, true);
   // console.log('get type', o, o.href.match(dataUrlRegex));
   let match;
@@ -88,7 +90,7 @@ const _getType = id => {
     }
     let extension;
     let match2;
-    if (match2 = type.match(/^application\/(light|text|rendersettings|spawnpoint|lore|quest|npc|mob|react|group|wind|vircadia)$/)) {
+    if (match2 = type.match(/^application\/(light|text|rendersettings|gamesettings|spawnpoint|lore|quest|npc|mob|react|group|wind|vircadia)$/)) {
       extension = match2[1];
     } else if (match2 = type.match(/^application\/(javascript)$/)) {
       extension = 'js';
@@ -110,16 +112,16 @@ const _getType = id => {
 
 const _resolvePathName = (pathName , source) => {
   /**
-   * This check is specifically added because of windows 
+   * This check is specifically added because of windows
    * as windows is converting constantly all forward slashes into
    * backward slash
    */
   if(process.platform === 'win32'){
     pathName = pathName.replaceAll('\\','/').replaceAll('//','/');
     pathName = path.resolve(upath.parse(pathName).dir, source);
-    /** 
+    /**
      * Whenever path.resolve returns the result in windows it add the drive letter as well
-     * Slice the drive letter (c:/, e:/, d:/ ) from the path and change backward slash 
+     * Slice the drive letter (c:/, e:/, d:/ ) from the path and change backward slash
      * back to forward slash.
      */
      pathName = pathName.slice(3).replaceAll('\\','/');
@@ -131,7 +133,7 @@ const _resolvePathName = (pathName , source) => {
 
 const _resolveLoaderId = loaderId => {
   /**
-   * This check is specifically added because of windows 
+   * This check is specifically added because of windows
    * as windows is converting constantly all forward slashes into
    * backward slash
    */
@@ -177,7 +179,7 @@ export default function metaversefilePlugin() {
       }
       if (/^ipfs:\/\//.test(source)) {
         source = source.replace(/^ipfs:\/\/(?:ipfs\/)?/, 'https://cloudflare-ipfs.com/ipfs/');
-        
+
         const o = url.parse(source, true);
         if (!o.query.type) {
           const res = await fetch(source, {
@@ -213,7 +215,7 @@ export default function metaversefilePlugin() {
         const source2 = await resolveId(source, importer);
         return source2;
       } */
-      
+
       const type = _getType(source);
       const loader = loaders[type];
       const resolveId = loader?.resolveId;
@@ -250,7 +252,7 @@ export default function metaversefilePlugin() {
         // .replace(/^\/@proxy\//, '')
         .replace(/^(eth:\/(?!\/))/, '$1/')
         // .replace(/^(weba:\/(?!\/))/, '$1/');
-      
+
       let match;
       // console.log('contract load match', id.match(/^eth:\/\/(0x[0-9a-f]+)\/([0-9]+)$/));
       if (match = id.match(/^eth:\/\/(0x[0-9a-f]+)\/([0-9]+)$/)) {
@@ -261,7 +263,7 @@ export default function metaversefilePlugin() {
         // console.log('load contract 1', load);
         if (load) {
           const src = await load(id);
-          
+
           // console.log('load contract 2', src);
           if (src !== null && src !== undefined) {
             return src;
@@ -275,9 +277,9 @@ export default function metaversefilePlugin() {
           return src;
         }
       } */
-      
+
       // console.log('load 2');
-      
+
       const type = _getType(id);
       const loader = loaders[type];
       const load = loader?.load;
@@ -289,9 +291,9 @@ export default function metaversefilePlugin() {
           return src;
         }
       }
-      
+
       // console.log('load 2', {id, type, loader: !!loader, load: !!load});
-      
+
       if (/^https?:\/\//.test(id)) {
         const res = await fetch(id)
         const text = await res.text();
