@@ -18,7 +18,7 @@ export default e => {
         let cameraType = "orthographic";
         let perspective = scene2D.perspective ? scene2D.perspective : "side-scroll";
         let cameraMode = scene2D.cameraMode ? scene2D.cameraMode : "follow";
-        let scrollDirection = scene2D.scrollDirection ? scene2D.scrollDirection : "both";
+        let scrollDirection = scene2D.scrollDirection ? scene2D.scrollDirection : "none";
         let controls = scene2D.controls ? scene2D.controls : "default";
         let viewS = scene2D.viewSize ? scene2D.viewSize : 15;
         scene2DManager.setMode(perspective, cameraMode, viewS, scrollDirection, controls);
