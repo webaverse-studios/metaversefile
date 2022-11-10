@@ -47,6 +47,7 @@ const group = require('../types/group.js');
 const vircadia = require('../types/vircadia.js');
 const scene2D = require('../types/scene2D.js');
 const directory = require('../types/directory.js');
+const spritenpc = require('../types/spritenpc.js');
 const loaders = {
   js: jsx,
   jsx,
@@ -78,6 +79,7 @@ const loaders = {
   wind,
   vircadia,
   scene2D,
+  spritenpc,
   '': directory,
 };
 const upath = require('unix-path');
@@ -96,7 +98,7 @@ const _getType = id => {
     }
     let extension;
     let match2;
-    if (match2 = type.match(/^application\/(light|text|rendersettings|spawnpoint|lore|quest|npc|mob|react|group|wind|vircadia|scene2D)$/)) {
+    if (match2 = type.match(/^application\/(light|text|rendersettings|spawnpoint|lore|quest|npc|mob|react|group|wind|vircadia|scene2D|spritenpc)$/)) {
       extension = match2[1];
     } else if (match2 = type.match(/^application\/(javascript)$/)) {
       extension = 'js';
