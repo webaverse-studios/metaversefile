@@ -218,7 +218,7 @@ export default e => {
               switch (scene2DManager.perspective) {
                 case 'side-scroll': {
                   if(worldPos.z === 0) {
-                    _addPhysicsId(physics.addGeometry2D(o, 0));
+                    _addPhysicsId(physics.addGeometry(o, 0)); //addGeometry2D
                     // console.log("2D-Geom", "perspective:", cameraManager.scene2D.perspective);
                   }
                   else {
